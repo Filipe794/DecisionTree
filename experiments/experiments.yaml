@@ -1,0 +1,32 @@
+# Cada experimento herda o baseline e sobrescreve só o que muda.
+# O override SUBSTITUI a etapa inteira (inclusive model: repita max_depth se quiser mantê-lo).
+# O baseline em si roda automaticamente como E01_baseline.
+#
+# Formato de cada etapa:  nome   ou   {name: nome, parametro: valor}
+# Opções disponíveis: veja src/registry.py
+
+baseline:
+  zeros: to_nan
+  missing_flags: none
+  outliers: none
+  imputer: median
+  features: none
+  selection: none
+  balancing: none
+  model: {max_depth: 4}
+
+experiments:
+  - name: E02_knn
+    override: {imputer: {name: knn, n_neighbors: 5}}
+
+  - name: E03_winsor
+    override: {outliers: winsor_1_99}
+
+  - name: E04_smote
+    override: {balancing: smote}
+
+  - name: E05_knn_winsor_smote
+    override:
+      imputer: {name: knn, n_neighbors: 5}
+      outliers: winsor_1_99
+      balancing: smote
