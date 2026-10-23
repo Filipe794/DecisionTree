@@ -1,0 +1,84 @@
+# =============================================================================
+# R2 - Valores ausentes
+# -----------------------------------------------------------------------------
+# !!! NÃO RODAR ANTES DE ATUALIZAR O BASELINE !!!
+#
+# Pergunta: qual a melhor forma de lidar com exames não medidos (zeros
+#           impossíveis em Glucose, BloodPressure, SkinThickness, Insulin, BMI)?
+# Objetivo: comparar tratamentos de ausentes com o modelo fixo (vencedor do R1).
+#           Só o pré-processamento varia; o único override que mexe no model é
+#           o R2_knn_vs_scaled_peso, no fim do arquivo.
+# Critério: roc_auc. Entre as configs sem diferença significativa para a melhor
+#           (teste pareado sobre o fold_scores.csv), escolher a mais simples.
+#
+# Atualizar antes de rodar:
+# - model: config vencedora do R1 (todas as chaves: max_depth, min_samples_leaf,
+#   ccp_alpha, max_leaf_nodes, criterion...).
+# - R2_flags_knn: depois de rodar o resto, trocar pelo melhor KNN deste R2 e
+#   rodar só ele (--only R2_flags_knn).
+# - R2_knn_vs_scaled_peso: o model do override deve ser igual ao do baseline.
+# O baseline é pulado pelo hash (igual ao vencedor de R1): a referência no
+# compare.py é a pasta desse vencedor.
+# Valores marcados com ATUALIZAR são provisórios (baseline do R1).
+# =============================================================================
+
+baseline_name: R2_baseline
+
+baseline:
+  zeros: to_nan
+  missing_flags: none
+  imputer: median
+  features: none
+  selection: none
+  balancing: none
+  model: {max_depth: 4, min_samples_leaf: 1}  # ATUALIZAR: vencedor de R1
+
+experiments:
+  # Zero tratado como valor real (sem converter para NaN)
+  - name: R2_zero_como_valor
+    override: {zeros: none}
+
+  - name: R2_media
+    override: {imputer: mean}
+
+  # KNN nas unidades originais (Insulin e Glucose dominam a distância)
+  - name: R2_knn
+    override: {imputer: {name: knn, n_neighbors: 5}}
+    sweep: {imputer.n_neighbors: [3, 5, 10]}
+
+  # KNN com colunas padronizadas para escolher os vizinhos
+  - name: R2_knn_scaled
+    override: {imputer: {name: knn_scaled, n_neighbors: 5}}
+
+  - name: R2_iterativo
+    override: {imputer: iterative}
+
+  # A própria árvore trata os NaN (sem imputar)
+  - name: R2_nan_nativo
+    override: {imputer: none}
+
+  # Colunas <col>_missing (0/1) + mediana
+  - name: R2_flags_mediana
+    override: {missing_flags: flags, imputer: median}
+
+  # Colunas <col>_missing + melhor KNN deste R2
+  - name: R2_flags_knn
+    override:
+      missing_flags: flags
+      imputer: {name: knn, n_neighbors: 5}  # ATUALIZAR: melhor KNN de R2 (knn ou knn_scaled, n_neighbors)
+
+  # ---------------------------------------------------------------------------
+  # Pergunta: a padronização do KNN muda o resultado, com e sem class_weight?
+  # Compara knn (distância nas unidades originais) com knn_scaled (distância
+  # em escala padronizada), cada um sem peso e com class_weight: balanced.
+  # Sweep 2 x 2 = 4 execuções. O override de model substitui a etapa inteira:
+  # deve ser igual ao model do baseline, SEM class_weight (quem varia é o sweep).
+  # Para comparar os pares, use compare.py (teste pareado fold a fold).
+  # ---------------------------------------------------------------------------
+  - name: R2_knn_vs_scaled_peso
+    override:
+      imputer: {name: knn, n_neighbors: 5}
+      model: {max_depth: 4, min_samples_leaf: 1}  # ATUALIZAR: vencedor de R1
+    sweep:
+      imputer.name: [knn, knn_scaled]
+      model.class_weight: [null, balanced]

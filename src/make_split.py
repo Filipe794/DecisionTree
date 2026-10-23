@@ -8,6 +8,15 @@ from sklearn.model_selection import train_test_split
 from src.config import RAW_CSV, TRAIN_CSV, TEST_CSV, COLS, SEED, TEST_SIZE, TARGET
 
 
+def fix_dpf(df):
+    """No CSV, DPF < 1 perdeu o '0.' (0.627 -> 627). O máximo real é 2.42, então >= 3 é sempre um desses."""
+    df = df.copy()
+    wrong = df["DiabetesPedigreeFunction"] >= 3
+    df.loc[wrong, "DiabetesPedigreeFunction"] /= 1000
+    print(f"DiabetesPedigreeFunction: {wrong.sum()} valores corrigidos (/1000)")
+    return df
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--force", action="store_true",
@@ -18,7 +27,7 @@ def main():
         print(f"Split já existe em {TRAIN_CSV.parent}. Nada feito (use --force para regerar).")
         return
 
-    df = pd.read_csv(RAW_CSV, header=None, names=COLS)
+    df = fix_dpf(pd.read_csv(RAW_CSV, header=None, names=COLS))
     train, test = train_test_split(df, test_size=TEST_SIZE, random_state=SEED,
                                    stratify=df[TARGET])
     TRAIN_CSV.parent.mkdir(parents=True, exist_ok=True)

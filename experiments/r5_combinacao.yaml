@@ -1,0 +1,45 @@
+# =============================================================================
+# R5 - Juntar tudo e conferir
+# -----------------------------------------------------------------------------
+# !!! NÃO RODAR ANTES DE ATUALIZAR O BASELINE !!!
+#
+# Pergunta: os vencedores das rodadas anteriores funcionam juntos?
+# Objetivo: rodar a combinação dos vencedores e reajustar de leve o tamanho da
+#           árvore, porque as variáveis e os pesos mudam onde ela corta.
+# Critério: o mesmo da rodada que decidiu o ponto final: roc_auc (R1/R2/R4) e
+#           F1 ou balanced_accuracy com recall >= 0.70 (R3, se houver peso ou
+#           limiar). Sem diferença significativa, ficar com a mais simples.
+#
+# Atualizar antes de rodar:
+# - Todo o baseline: zeros/missing_flags/imputer (R2), balancing/class_weight/
+#   threshold (R3), features/selection (R4) e model (R1).
+# - A grade: max_depth [valor-1, valor, valor+1] e min_samples_leaf [vizinho
+#   menor, valor, vizinho maior] na lista do R1 [1, 5, 10, 20, 30, 50].
+# - Repita class_weight e as demais chaves do model no override da grade.
+# O baseline é pulado pelo hash (igual ao vencedor de R4): a referência no
+# compare.py é a pasta desse vencedor.
+# Valores marcados com ATUALIZAR são provisórios (baseline do R1).
+# =============================================================================
+
+baseline_name: R5_baseline
+
+baseline:
+  zeros: to_nan                               # ATUALIZAR: vencedor de R2
+  missing_flags: none                         # ATUALIZAR: vencedor de R2
+  imputer: median                             # ATUALIZAR: vencedor de R2
+  features: none                              # ATUALIZAR: vencedor de R4
+  selection: none                             # ATUALIZAR: vencedor de R4
+  balancing: none                             # ATUALIZAR: vencedor de R3
+  model: {max_depth: 4, min_samples_leaf: 1}  # ATUALIZAR: vencedor de R1 + class_weight de R3
+  # threshold: {name: tuned, scoring: f1}     # ATUALIZAR: vencedor de R3 (descomente se venceu)
+
+experiments:
+  # Grade pequena ao redor da complexidade do baseline (3 x 3 = 9 experimentos).
+  # Provisório: max_depth 4 -> [3, 4, 5]; min_samples_leaf 1 não tem vizinho
+  # menor na lista do R1, então usa os três primeiros [1, 5, 10].
+  - name: R5_grade
+    override:
+      model: {max_depth: 4, min_samples_leaf: 1}  # ATUALIZAR: igual ao model do baseline
+    sweep:
+      model.max_depth: [3, 4, 5]           # ATUALIZAR: [valor-1, valor, valor+1]
+      model.min_samples_leaf: [1, 5, 10]   # ATUALIZAR: [vizinho menor, valor, vizinho maior]

@@ -1,0 +1,64 @@
+# =============================================================================
+# R4 - Variáveis novas
+# -----------------------------------------------------------------------------
+# !!! NÃO RODAR ANTES DE ATUALIZAR O BASELINE !!!
+#
+# Pergunta: HOMA-IR, razões e faixas ajudam a árvore?
+# Objetivo: testar variáveis derivadas e, para documentar, seleção de variáveis
+#           (a árvore já seleciona sozinha; espera-se pouco ganho).
+# Critério: roc_auc. Entre as configs sem diferença significativa para a melhor
+#           (teste pareado sobre o fold_scores.csv), escolher a mais simples.
+#
+# Atualizar antes de rodar:
+
+# Se o R2 escolheu imputer: none (a árvore trata os NaN sozinha):
+# - comente o R4_kbest4_flags e o R4_kbest6_flags antes de rodar. O kbest (f_classif) não
+#   aceita NaN e só falha DURANTE a validação cruzada, depois que outros experimentos já rodaram.
+# - o R4_rfe_flags e as features (homa, ratios, bmi_age_bins) funcionam com NaN.
+
+# - zeros, missing_flags, imputer: vencedores do R2.
+# - model: vencedor do R1 + class_weight do R3 (se o peso venceu).
+# - balancing / threshold: vencedores do R3 (descomente threshold se o limiar venceu).
+# Nenhum override abaixo mexe no model.
+# O baseline é pulado pelo hash (igual ao vencedor de R3): a referência no
+# compare.py é a pasta desse vencedor.
+# Valores marcados com ATUALIZAR são provisórios (baseline do R1).
+# =============================================================================
+
+baseline_name: R4_baseline
+
+baseline:
+  zeros: to_nan                               # ATUALIZAR: vencedor de R2
+  missing_flags: none                         # ATUALIZAR: vencedor de R2
+  imputer: median                             # ATUALIZAR: vencedor de R2
+  features: none
+  selection: none
+  balancing: none                             # ATUALIZAR: vencedor de R3
+  model: {max_depth: 4, min_samples_leaf: 1}  # ATUALIZAR: vencedor de R1 + class_weight de R3
+  # threshold: {name: tuned, scoring: f1}     # ATUALIZAR: vencedor de R3 (descomente se venceu)
+
+experiments:
+  # HOMA-IR = Glucose x Insulin / 405 (resistência à insulina)
+  - name: R4_homa
+    override: {features: homa}
+
+  # Insulin/Glucose, Glucose x BMI, Pregnancies/Age
+  - name: R4_razoes
+    override: {features: ratios}
+
+  # Categorias de IMC (OMS) e faixas de idade
+  - name: R4_faixas
+    override: {features: bmi_age_bins}
+
+  - name: R4_homa_flags
+    override: {features: homa, missing_flags: flags}
+
+  # Seleção de variáveis (com as flags há 13 colunas para escolher)
+  - name: R4_kbest4_flags
+    override: {missing_flags: flags, selection: {name: kbest, k: 4}}
+
+  - name: R4_kbest6_flags
+    override: {missing_flags: flags, selection: {name: kbest, k: 6}}
+
+  - name: R4_rfe_flags
+    override: {missing_flags: flags, selection: rfe}
