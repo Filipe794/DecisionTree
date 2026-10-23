@@ -1,6 +1,6 @@
 """Avaliação final no conjunto de teste (rodar só no fim, uma vez por execução escolhida).
 
-Uso: python final_test.py --run 20261021_143012_a3f9c1_E05_knn_winsor_smote
+Uso: python final_test.py --run 20261021_143012_a3f9c1_E05_knn_smote
 """
 import argparse
 import json
@@ -10,11 +10,10 @@ from datetime import datetime
 import joblib
 import pandas as pd
 import yaml
-from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score, precision_score,
-                             recall_score, roc_auc_score)
+from sklearn.metrics import confusion_matrix, get_scorer
 
 from src.builder import build_pipeline
-from src.config import FINAL_DIR, RUNS_DIR
+from src.config import FINAL_DIR, RUNS_DIR, SCORING
 from src.data import load_test, load_train
 
 
@@ -41,15 +40,9 @@ def main():
         cfg = yaml.safe_load((run_dir / "config.yaml").read_text(encoding="utf-8"))
         cfg.pop("name", None)
         pipe = build_pipeline(cfg).fit(X_train, y_train)
-    pred = pipe.predict(X_test)
-    proba = pipe.predict_proba(X_test)[:, 1]
-
-    metrics = {"accuracy": accuracy_score(y_test, pred),
-               "precision": precision_score(y_test, pred, zero_division=0),
-               "recall": recall_score(y_test, pred),
-               "f1": f1_score(y_test, pred),
-               "roc_auc": roc_auc_score(y_test, proba)}
-    cm = confusion_matrix(y_test, pred)
+    # Mesmas métricas e mesmos scorers da validação cruzada (src/config.py:SCORING)
+    metrics = {m: float(get_scorer(m)(pipe, X_test, y_test)) for m in SCORING}
+    cm = confusion_matrix(y_test, pipe.predict(X_test))
 
     out_dir.mkdir(parents=True)
     (out_dir / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
@@ -60,7 +53,7 @@ def main():
          "n_train": len(X_train), "n_test": len(X_test)}, indent=2), encoding="utf-8")
 
     for m, v in metrics.items():
-        print(f"{m:>9}: {v:.3f}")
+        print(f"{m:>17}: {v:.3f}")
     print(f"Matriz de confusão:\n{cm}\n-> {out_dir}")
 
 

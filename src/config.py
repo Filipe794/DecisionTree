@@ -23,5 +23,6 @@ ZERO_COLS = ["Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI"]
 # Mesmos folds para todo mundo => comparação justa
 N_SPLITS, N_REPEATS = 5, 5
 CV = RepeatedStratifiedKFold(n_splits=N_SPLITS, n_repeats=N_REPEATS, random_state=SEED)
-SCORING = ["accuracy", "precision", "recall", "f1", "roc_auc"]
+# balanced_accuracy = média do recall das duas classes (critério do R3, junto com o F1)
+SCORING = ["accuracy", "precision", "recall", "f1", "balanced_accuracy", "roc_auc"]
 PRIMARY_METRIC = "roc_auc"

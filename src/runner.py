@@ -8,6 +8,7 @@ from datetime import datetime
 
 import imblearn
 import joblib
+from joblib import parallel_config
 import matplotlib
 matplotlib.use("Agg")  # grava PNG sem abrir janela
 import matplotlib.pyplot as plt
@@ -18,7 +19,7 @@ import yaml
 from sklearn.model_selection import cross_validate
 from sklearn.tree import export_text, plot_tree
 
-from src.builder import build_pipeline
+from src.builder import build_pipeline, unwrap
 from src.config import CV, N_REPEATS, N_SPLITS, RUNS_DIR, SCORING, SEED, TRAIN_CSV
 from src.data import file_sha256, load_train
 
@@ -34,7 +35,7 @@ def config_hash(cfg, train_sha):
 def save_tree(pipe, out_dir):
     """Grava o pipeline treinado e representações legíveis da árvore."""
     joblib.dump(pipe, out_dir / "pipeline.joblib")
-    tree = pipe.named_steps["model"]
+    tree = unwrap(pipe).named_steps["model"]
     names = [str(c) for c in tree.feature_names_in_]
     (out_dir / "tree.txt").write_text(export_text(tree, feature_names=names, show_weights=True),
                                       encoding="utf-8")
@@ -70,7 +71,10 @@ def run(name, cfg, force=False, n_jobs=-1):
     X, y = load_train()
     pipe = build_pipeline(cfg)
     t0 = time.time()
-    res = cross_validate(pipe, X, y, cv=CV, scoring=SCORING, n_jobs=n_jobs)
+    # Threads em vez de processos: no Python 3.14 o joblib (loky) quebra quando a pasta
+    # temporária tem acento ("Máquina"). Com ~500 linhas, threads custam o mesmo.
+    with parallel_config(backend="threading"):
+        res = cross_validate(pipe, X, y, cv=CV, scoring=SCORING, n_jobs=n_jobs)
     elapsed = time.time() - t0
 
     run_id = f"{datetime.now():%Y%m%d_%H%M%S}_{full_hash[:6]}_{name}"
@@ -92,6 +96,10 @@ def run(name, cfg, force=False, n_jobs=-1):
                               "fit_time": res["fit_time"]})
         folds.to_csv(tmp_dir / "fold_scores.csv", index=False)
 
+        # Árvore final: mesmo pipeline treinado no treino inteiro (os 25 modelos do CV são descartados)
+        final_pipe = build_pipeline(cfg).fit(X, y)
+        save_tree(final_pipe, tmp_dir)
+
         meta = {"run_id": run_id, "name": name, "hash": full_hash,
                 "date": datetime.now().isoformat(timespec="seconds"),
                 "train_sha256": train_sha, "n_train": int(len(X)), "seed": SEED,
@@ -100,10 +108,10 @@ def run(name, cfg, force=False, n_jobs=-1):
                 "versions": {"python": platform.python_version(), "sklearn": sklearn.__version__,
                              "imblearn": imblearn.__version__, "pandas": pd.__version__,
                              "numpy": np.__version__}}
+        if hasattr(final_pipe, "best_threshold_"):
+            # Limiar escolhido no treino inteiro (é o usado pela árvore salva e pelo final_test)
+            meta["threshold"] = float(final_pipe.best_threshold_)
         (tmp_dir / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
-
-        # Árvore final: mesmo pipeline treinado no treino inteiro (os 25 modelos do CV são descartados)
-        save_tree(build_pipeline(cfg).fit(X, y), tmp_dir)
         # Só vira uma execução "válida" depois de tudo gravado
         tmp_dir.rename(final_dir)
     except BaseException:

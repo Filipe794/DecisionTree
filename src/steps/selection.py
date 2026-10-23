@@ -1,4 +1,4 @@
-"""Etapa 6 (selection)."""
+"""Etapa 5 (selection)."""
 from functools import partial
 from sklearn.feature_selection import RFE, SelectKBest, f_classif, mutual_info_classif
 from sklearn.tree import DecisionTreeClassifier

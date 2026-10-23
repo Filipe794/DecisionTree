@@ -1,0 +1,73 @@
+# =============================================================================
+# R3 - Desbalanceamento
+# -----------------------------------------------------------------------------
+# !!! NÃO RODAR ANTES DE ATUALIZAR O BASELINE !!!
+#
+# Pergunta: como encontrar mais diabéticos SEM SMOTE?
+# Objetivo: aumentar o recall com pesos de classe, limiar de decisão ou
+#           subamostragem, sem gerar amostras sintéticas (nada de SMOTE/ADASYN).
+# Critério: F1 ou balanced_accuracy, entre as configs com recall >= 0.70.
+#           (roc_auc não serve aqui: o limiar não o altera.)
+#
+# Atualizar antes de rodar:
+
+# Se o R2 escolheu imputer: none (a árvore trata os NaN sozinha):
+# - comente o R3_subamostragem antes de rodar. O random_under não aceita NaN, e o
+#   build_pipeline rejeita essa combinação, o que faz a validação do arquivo INTEIRO falhar
+#   (nenhum experimento roda).
+
+# - zeros, missing_flags, imputer: vencedores do R2.
+# - model: complexidade vencedora do R1, no baseline E em todo override de
+#   model abaixo (o override substitui o model inteiro: repita a complexidade).
+# O baseline é pulado pelo hash (igual ao vencedor de R2): a referência no
+# compare.py é a pasta desse vencedor.
+# Valores marcados com ATUALIZAR são provisórios (baseline do R1).
+# =============================================================================
+
+baseline_name: R3_baseline
+
+baseline:
+  zeros: to_nan                               # ATUALIZAR: vencedor de R2
+  missing_flags: none                         # ATUALIZAR: vencedor de R2
+  imputer: median                             # ATUALIZAR: vencedor de R2 (se for none, R3 e R4 quebram)
+  features: none
+  selection: none
+  balancing: none
+  model: {max_depth: 4, min_samples_leaf: 1}  # ATUALIZAR: vencedor de R1
+
+experiments:
+  # Erros da classe 1 pesam inversamente à sua frequência
+  - name: R3_peso_balanceado
+    override:
+      model: {max_depth: 4, min_samples_leaf: 1, class_weight: balanced}  # ATUALIZAR: vencedor de R1
+
+  # Peso moderado para a classe 1 (dicionário só em override, nunca em sweep)
+  - name: R3_peso_1_5
+    override:
+      model: {max_depth: 4, min_samples_leaf: 1, class_weight: {0: 1, 1: 1.5}}  # ATUALIZAR: vencedor de R1
+
+  # Limiar de decisão escolhido para maximizar o F1
+  - name: R3_limiar_f1
+    override: {threshold: {name: tuned, scoring: f1}}
+
+  # Limiar de decisão escolhido para maximizar a balanced_accuracy
+  - name: R3_limiar_bal_acc
+    override: {threshold: {name: tuned, scoring: balanced_accuracy}}
+
+  # Peso balanceado + limiar F1 juntos
+  - name: R3_peso_limiar_f1
+    override:
+      model: {max_depth: 4, min_samples_leaf: 1, class_weight: balanced}  # ATUALIZAR: vencedor de R1
+      threshold: {name: tuned, scoring: f1}
+
+  # Subamostragem aleatória da classe 0 (exige imputer, que o baseline tem)
+  - name: R3_subamostragem
+    override: {balancing: random_under}
+
+  # Reajuste da complexidade com peso balanceado (4 x 4 = 16 experimentos)
+  - name: R3_grade_peso
+    override:
+      model: {max_depth: 4, min_samples_leaf: 1, class_weight: balanced}  # ATUALIZAR: vencedor de R1
+    sweep:
+      model.max_depth: [3, 4, 5, 6]
+      model.min_samples_leaf: [5, 10, 20, 30]

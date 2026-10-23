@@ -1,0 +1,48 @@
+# =============================================================================
+# R1 - Tamanho da árvore
+# -----------------------------------------------------------------------------
+# Pergunta: qual tamanho de árvore aprende sem decorar?
+# Objetivo: escolher a complexidade do modelo (profundidade, tamanho mínimo de
+#           folha, poda) com o pré-processamento mais simples fixo.
+# Critério: roc_auc. Entre as configs sem diferença significativa para a melhor
+#           (teste pareado sobre o fold_scores.csv), escolher a mais simples
+#           (menos profunda / folhas maiores / menos folhas).
+# Baseline: igual ao do experiments.yaml (exploração inicial).
+#
+# Lembretes:
+# - O override SUBSTITUI a etapa inteira, inclusive o model.
+# - sweep: {etapa.parametro: [valores]} gera um experimento por combinação.
+# - null = None no Python (sem limite de profundidade).
+# =============================================================================
+
+baseline_name: R1_baseline
+
+baseline:
+  zeros: to_nan
+  missing_flags: none
+  imputer: median
+  features: none
+  selection: none
+  balancing: none
+  model: {max_depth: 4}
+
+experiments:
+  # Grade profundidade x tamanho mínimo de folha (7 x 6 = 42 experimentos)
+  - name: R1_grade
+    sweep:
+      model.max_depth: [2, 3, 4, 5, 6, 8, null]
+      model.min_samples_leaf: [1, 5, 10, 20, 30, 50]
+
+  # Poda por custo-complexidade numa árvore sem limite de profundidade
+  - name: R1_poda
+    override: {model: {max_depth: null}}
+    sweep: {model.ccp_alpha: [0.0, 0.002, 0.005, 0.01, 0.015, 0.02, 0.03]}
+
+  # Alternativa ao max_depth: limitar o número de folhas
+  - name: R1_folhas
+    override: {model: {max_depth: null}}
+    sweep: {model.max_leaf_nodes: [4, 8, 12, 16, 24]}
+
+  # Outro critério de divisão, na profundidade do baseline
+  - name: R1_entropia
+    override: {model: {max_depth: 4, criterion: entropy}}

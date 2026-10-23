@@ -2,11 +2,14 @@
 
 Método novo = função no arquivo da etapa + uma linha aqui.
 """
-from src.steps import balancing, features, imputers, outliers, selection, zeros
+from src.steps import balancing, features, imputers, selection, threshold, zeros
 
 # Ordem fixa do pipeline. NÃO alterar por experimento.
-STEP_ORDER = ["zeros", "missing_flags", "outliers", "imputer",
+# Sem etapa de outliers: árvores dividem por limiares, então valores extremos não as distorcem.
+STEP_ORDER = ["zeros", "missing_flags", "imputer",
               "features", "selection", "balancing"]  # + "model" no fim
+# Etapas que podem ser omitidas no YAML (equivalem a none). Envolvem o pipeline inteiro.
+OPTIONAL_STEPS = ["threshold"]
 
 REGISTRY = {
     "zeros": {
@@ -17,26 +20,20 @@ REGISTRY = {
         "none": None,
         "flags": zeros.flags,
     },
-    "outliers": {
-        "none": None,
-        "winsor_1_99": lambda: outliers.winsor(0.01, 0.99),
-        "winsor_5_95": lambda: outliers.winsor(0.05, 0.95),
-        "winsor": outliers.winsor,
-        "iqr_clip": outliers.iqr_clip,
-        "iqr_drop": outliers.iqr_drop,
-    },
     "imputer": {
         "none": None,
         "median": imputers.median,
         "mean": imputers.mean,
         "knn": imputers.knn,
         "knn5": lambda: imputers.knn(5),
+        "knn_scaled": imputers.knn_scaled,
         "iterative": imputers.iterative,
     },
     "features": {
         "none": None,
         "bmi_age_bins": features.bmi_age_bins,
         "ratios": features.ratios,
+        "homa": features.homa,
     },
     "selection": {
         "none": None,
@@ -50,5 +47,13 @@ REGISTRY = {
         "smote": balancing.smote,
         "random_over": balancing.random_over,
         "random_under": balancing.random_under,
+        "borderline_smote": balancing.borderline_smote,
+        "adasyn": balancing.adasyn,
+        "smote_tomek": balancing.smote_tomek,
+        "smote_enn": balancing.smote_enn,
+    },
+    "threshold": {
+        "none": None,
+        "tuned": threshold.tuned,
     },
 }

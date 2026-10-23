@@ -4,29 +4,51 @@
 #
 # Formato de cada etapa:  nome   ou   {name: nome, parametro: valor}
 # Opções disponíveis: veja src/registry.py
+# sweep: {etapa.parametro: [valores]} gera um experimento por valor (nome__parametro=valor)
 
-baseline:
-  zeros: to_nan
-  missing_flags: none
-  outliers: none
-  imputer: median
-  features: none
-  selection: none
-  balancing: none
-  model: {max_depth: 4}
+# baseline:
+#   zeros: to_nan
+#   missing_flags: none
+#   imputer: median
+#   features: none
+#   selection: none
+#   balancing: none
+#   model: {max_depth: 4}
 
-experiments:
-  - name: E02_knn
-    override: {imputer: {name: knn, n_neighbors: 5}}
+# experiments:
+#   - name: E02_knn
+#     override: {imputer: {name: knn, n_neighbors: 5}}
 
-  - name: E03_winsor
-    override: {outliers: winsor_1_99}
+#   - name: E04_smote
+#     override: {balancing: smote}
 
-  - name: E04_smote
-    override: {balancing: smote}
+#   - name: E05_knn_smote
+#     override:
+#       imputer: {name: knn, n_neighbors: 5}
+#       balancing: smote
 
-  - name: E05_knn_winsor_smote
-    override:
-      imputer: {name: knn, n_neighbors: 5}
-      outliers: winsor_1_99
-      balancing: smote
+#   # Pesa os erros da classe minoritária em vez de criar amostras sintéticas
+#   - name: E06_class_weight
+#     override: {model: {max_depth: 4, class_weight: balanced}}
+
+#   # A árvore trata NaN sozinha (sem imputar)
+#   - name: E07_nan_nativo
+#     override: {imputer: none}
+
+#   - name: E08_smote_tomek
+#     override: {balancing: smote_tomek}
+
+#   - name: E09_homa
+#     override: {features: homa}
+
+#   # Poda por custo-complexidade numa árvore mais funda
+#   - name: E10_poda
+#     override: {model: {max_depth: 8}}
+#     sweep: {model.ccp_alpha: [0.0, 0.002, 0.005, 0.01, 0.02]}
+
+#   - name: E11_profundidade
+#     sweep: {model.max_depth: [3, 4, 5, 6, 8]}
+
+#   # Limiar de decisão escolhido para maximizar o F1 (padrão é 0.5)
+#   - name: E12_limiar_f1
+#     override: {threshold: {name: tuned, scoring: f1}}

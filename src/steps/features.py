@@ -1,4 +1,4 @@
-"""Etapa 5 (features). Faixas fixas (não aprendem nada dos dados)."""
+"""Etapa 4 (features). Faixas fixas (não aprendem nada dos dados)."""
 import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -28,9 +28,28 @@ class Ratios(BaseEstimator, TransformerMixin):
         return X
 
 
+class Homa(BaseEstimator, TransformerMixin):
+    """HOMA-IR ≈ Glucose (mg/dL) x Insulin (µU/mL) / 405: índice de resistência à insulina.
+
+    Uma árvore só corta uma coluna por vez, então não acha esse produto sozinha.
+    """
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        X = X.copy()
+        X["HOMA_IR"] = X["Glucose"] * X["Insulin"] / 405
+        return X
+
+
 def bmi_age_bins():
     return BmiAgeBins()
 
 
 def ratios():
     return Ratios()
+
+
+def homa():
+    return Homa()
