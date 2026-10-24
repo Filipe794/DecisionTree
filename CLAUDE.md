@@ -18,6 +18,8 @@ python run_experiments.py experiments/r1_tamanho_arvore.yaml --only R1_grade # u
 python run_experiments.py experiments/r1_tamanho_arvore.yaml --force         # repete, cria pasta nova
 python summarize.py [--metric recall]          # regenera results/summary.csv
 python compare.py <run_A> <run_B> [--metric roc_auc]   # teste t corrigido (Nadeau-Bengio) fold a fold
+python compare.py --rodada R1_ [--metric roc_auc] [--ref <pasta>] [--incluir <pasta> ...] [--salvar]
+                                               # rodada: referência x cada uma; α = ALPHA (0.05)
 python final_test.py --run <pasta em results/runs>
 ```
 
@@ -68,6 +70,13 @@ O fluxo é YAML → `resolve` → `build_pipeline` → `cross_validate` → past
 - **`summarize.py`** só lê as pastas; a tabela é sempre derivada.
 - **`compare.py`** exige as mesmas 25 linhas (repeat, fold) e o mesmo `train_sha256` no
   `meta.json` (confere o split sozinho e para com `sys.exit` se divergir ou se faltar o `meta.json`).
+  O modo `--rodada` seleciona pelo prefixo do `name` do `meta.json` (`--incluir` traz o baseline,
+  que aparece com o nome do vencedor anterior), compara a referência (maior média ou `--ref`)
+  com cada uma das outras, avisa e pula as de outro split ou outro CV, e mostra profundidade e
+  folhas via `unwrap()`. Não escolhe o vencedor. `--salvar` grava em `results/comparacoes/`,
+  nunca em `results/runs/`. `ALPHA` (0.05, `src/config.py`) é o nível de significância e não
+  entra no hash; p ≥ α é "sem diferença significativa", não "equivalentes", sem correção
+  para comparações múltiplas.
 
 ## Rodadas de experimentos
 

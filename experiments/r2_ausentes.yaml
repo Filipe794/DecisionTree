@@ -31,7 +31,7 @@ baseline:
   features: none
   selection: none
   balancing: none
-  model: {max_depth: 4, min_samples_leaf: 1}  # ATUALIZAR: vencedor de R1
+  model: {max_depth: 3, min_samples_leaf: 10}  # ATUALIZAR: vencedor de R1
 
 experiments:
   # Zero tratado como valor real (sem converter para NaN)
@@ -78,7 +78,7 @@ experiments:
   - name: R2_knn_vs_scaled_peso
     override:
       imputer: {name: knn, n_neighbors: 5}
-      model: {max_depth: 4, min_samples_leaf: 1}  # ATUALIZAR: vencedor de R1
+      model: {max_depth: 3, min_samples_leaf: 10}  # ATUALIZAR: vencedor de R1
     sweep:
       imputer.name: [knn, knn_scaled]
       model.class_weight: [null, balanced]

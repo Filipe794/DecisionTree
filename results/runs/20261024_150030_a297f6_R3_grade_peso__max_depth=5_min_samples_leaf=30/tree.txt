@@ -1,0 +1,34 @@
+|--- Glucose <= 132.50
+|   |--- Age <= 29.50
+|   |   |--- SkinThickness <= 34.50
+|   |   |   |--- DiabetesPedigreeFunction <= 0.66
+|   |   |   |   |--- BloodPressure <= 71.00
+|   |   |   |   |   |--- weights: [72.88, 0.00] class: 0
+|   |   |   |   |--- BloodPressure >  71.00
+|   |   |   |   |   |--- weights: [37.59, 8.61] class: 0
+|   |   |   |--- DiabetesPedigreeFunction >  0.66
+|   |   |   |   |--- weights: [17.64, 10.05] class: 0
+|   |   |--- SkinThickness >  34.50
+|   |   |   |--- weights: [17.64, 12.92] class: 0
+|   |--- Age >  29.50
+|   |   |--- BMI <= 26.90
+|   |   |   |--- weights: [23.01, 0.00] class: 0
+|   |   |--- BMI >  26.90
+|   |   |   |--- Glucose <= 99.50
+|   |   |   |   |--- weights: [23.78, 11.49] class: 0
+|   |   |   |--- Glucose >  99.50
+|   |   |   |   |--- DiabetesPedigreeFunction <= 0.56
+|   |   |   |   |   |--- weights: [26.85, 34.46] class: 1
+|   |   |   |   |--- DiabetesPedigreeFunction >  0.56
+|   |   |   |   |   |--- weights: [6.90, 30.15] class: 1
+|--- Glucose >  132.50
+|   |--- BMI <= 29.95
+|   |   |--- weights: [19.18, 22.97] class: 1
+|   |--- BMI >  29.95
+|   |   |--- Glucose <= 155.50
+|   |   |   |--- weights: [16.88, 53.13] class: 1
+|   |   |--- Glucose >  155.50
+|   |   |   |--- BloodPressure <= 74.50
+|   |   |   |   |--- weights: [3.84, 37.33] class: 1
+|   |   |   |--- BloodPressure >  74.50
+|   |   |   |   |--- weights: [2.30, 47.38] class: 1

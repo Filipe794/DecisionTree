@@ -1,0 +1,19 @@
+name: R3_peso_1_5
+zeros:
+  name: to_nan
+missing_flags:
+  name: none
+imputer:
+  name: median
+features:
+  name: none
+selection:
+  name: none
+balancing:
+  name: none
+model:
+  max_depth: 3
+  min_samples_leaf: 10
+  class_weight:
+    0: 1
+    1: 1.5

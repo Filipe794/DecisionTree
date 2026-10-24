@@ -1,0 +1,16 @@
+|--- Glucose <= 132.50
+|   |--- Age <= 29.50
+|   |   |--- SkinThickness <= 29.50
+|   |   |   |--- weights: [144.00, 9.00] class: 0
+|   |   |--- SkinThickness >  29.50
+|   |   |   |--- weights: [46.00, 13.00] class: 0
+|   |--- Age >  29.50
+|   |   |--- BMI <= 29.65
+|   |   |   |--- weights: [46.00, 10.00] class: 0
+|   |   |--- BMI >  29.65
+|   |   |   |--- weights: [59.00, 43.00] class: 0
+|--- Glucose >  132.50
+|   |--- Glucose <= 154.50
+|   |   |--- weights: [40.00, 41.00] class: 1
+|   |--- Glucose >  154.50
+|   |   |--- weights: [15.00, 71.00] class: 1

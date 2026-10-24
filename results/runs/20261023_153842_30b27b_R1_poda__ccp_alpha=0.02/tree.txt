@@ -1,0 +1,4 @@
+|--- Glucose <= 132.50
+|   |--- weights: [295.00, 75.00] class: 0
+|--- Glucose >  132.50
+|   |--- weights: [55.00, 112.00] class: 1

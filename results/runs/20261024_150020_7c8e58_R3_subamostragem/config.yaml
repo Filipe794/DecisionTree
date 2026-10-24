@@ -1,0 +1,16 @@
+name: R3_subamostragem
+zeros:
+  name: to_nan
+missing_flags:
+  name: none
+imputer:
+  name: median
+features:
+  name: none
+selection:
+  name: none
+balancing:
+  name: random_under
+model:
+  max_depth: 3
+  min_samples_leaf: 10

@@ -1,0 +1,15 @@
+feature,importance
+HOMA_IR,0.5608048525718075
+Glucose,0.16611181788329488
+BMI,0.15759227357015212
+Pregnancies,0.06757563154625412
+DiabetesPedigreeFunction,0.04791542442849134
+BloodPressure,0.0
+Insulin,0.0
+SkinThickness,0.0
+Glucose_missing,0.0
+Age,0.0
+BloodPressure_missing,0.0
+SkinThickness_missing,0.0
+Insulin_missing,0.0
+BMI_missing,0.0

@@ -1,0 +1,18 @@
+name: R4_kbest4_flags
+zeros:
+  name: to_nan
+missing_flags:
+  name: flags
+imputer:
+  name: median
+features:
+  name: none
+selection:
+  name: kbest
+  k: 4
+balancing:
+  name: none
+model:
+  max_depth: 3
+  min_samples_leaf: 10
+  class_weight: balanced

@@ -1,0 +1,9 @@
+feature,importance
+Glucose,0.6529558654144647
+BMI,0.23680214337116165
+Age,0.11024199121437363
+Pregnancies,0.0
+SkinThickness,0.0
+BloodPressure,0.0
+Insulin,0.0
+DiabetesPedigreeFunction,0.0

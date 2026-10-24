@@ -26,3 +26,7 @@ CV = RepeatedStratifiedKFold(n_splits=N_SPLITS, n_repeats=N_REPEATS, random_stat
 # balanced_accuracy = média do recall das duas classes (critério do R3, junto com o F1)
 SCORING = ["accuracy", "precision", "recall", "f1", "balanced_accuracy", "roc_auc"]
 PRIMARY_METRIC = "roc_auc"
+
+# Nível de significância do teste t corrigido (bilateral) usado pelo compare.py.
+# Não entra no hash das execuções: mudar o ALPHA só muda a leitura das comparações.
+ALPHA = 0.05

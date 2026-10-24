@@ -1,0 +1,18 @@
+{
+  "run_id": "20261024_145424_a9174f_R2_knn_vs_scaled_peso__name=knn_scaled_class_weight=balanced",
+  "name": "R2_knn_vs_scaled_peso__name=knn_scaled_class_weight=balanced",
+  "hash": "a9174ffbad198b9e9d2ef674f0f46b50fb50b657a51ead034b0029fc44ec4ab6",
+  "date": "2026-10-24T14:54:24",
+  "train_sha256": "390e6dd64c72ec31ff122e939ca9a9bc69cabf3561c1f40a64ed2eb7451f2114",
+  "n_train": 537,
+  "seed": 42,
+  "cv": "RepeatedStratifiedKFold(5x5)",
+  "elapsed_s": 0.85,
+  "versions": {
+    "python": "3.13.15",
+    "sklearn": "1.9.1",
+    "imblearn": "0.14.2",
+    "pandas": "3.0.6",
+    "numpy": "2.5.4"
+  }
+}

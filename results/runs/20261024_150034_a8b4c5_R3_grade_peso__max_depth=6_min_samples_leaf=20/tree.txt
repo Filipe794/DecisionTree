@@ -1,0 +1,49 @@
+|--- Glucose <= 132.50
+|   |--- Age <= 29.50
+|   |   |--- SkinThickness <= 34.50
+|   |   |   |--- DiabetesPedigreeFunction <= 0.67
+|   |   |   |   |--- BloodPressure <= 79.00
+|   |   |   |   |   |--- DiabetesPedigreeFunction <= 0.20
+|   |   |   |   |   |   |--- weights: [21.48, 2.87] class: 0
+|   |   |   |   |   |--- DiabetesPedigreeFunction >  0.20
+|   |   |   |   |   |   |--- weights: [75.18, 0.00] class: 0
+|   |   |   |   |--- BloodPressure >  79.00
+|   |   |   |   |   |--- weights: [14.58, 5.74] class: 0
+|   |   |   |--- DiabetesPedigreeFunction >  0.67
+|   |   |   |   |--- weights: [16.88, 10.05] class: 0
+|   |   |--- SkinThickness >  34.50
+|   |   |   |--- weights: [17.64, 12.92] class: 0
+|   |--- Age >  29.50
+|   |   |--- BMI <= 26.90
+|   |   |   |--- weights: [23.01, 0.00] class: 0
+|   |   |--- BMI >  26.90
+|   |   |   |--- Glucose <= 89.50
+|   |   |   |   |--- weights: [14.58, 2.87] class: 0
+|   |   |   |--- Glucose >  89.50
+|   |   |   |   |--- Pregnancies <= 6.50
+|   |   |   |   |   |--- Glucose <= 114.50
+|   |   |   |   |   |   |--- weights: [21.48, 12.92] class: 0
+|   |   |   |   |   |--- Glucose >  114.50
+|   |   |   |   |   |   |--- weights: [12.27, 27.28] class: 1
+|   |   |   |   |--- Pregnancies >  6.50
+|   |   |   |   |   |--- weights: [9.21, 33.02] class: 1
+|--- Glucose >  132.50
+|   |--- BMI <= 29.95
+|   |   |--- Glucose <= 146.50
+|   |   |   |--- weights: [12.27, 5.74] class: 0
+|   |   |--- Glucose >  146.50
+|   |   |   |--- weights: [6.90, 17.23] class: 1
+|   |--- BMI >  29.95
+|   |   |--- Glucose <= 155.50
+|   |   |   |--- Glucose <= 146.50
+|   |   |   |   |--- weights: [8.44, 40.20] class: 1
+|   |   |   |--- Glucose >  146.50
+|   |   |   |   |--- weights: [8.44, 12.92] class: 1
+|   |   |--- Glucose >  155.50
+|   |   |   |--- BloodPressure <= 71.00
+|   |   |   |   |--- weights: [3.84, 30.15] class: 1
+|   |   |   |--- BloodPressure >  71.00
+|   |   |   |   |--- Age <= 40.50
+|   |   |   |   |   |--- weights: [0.00, 28.72] class: 1
+|   |   |   |   |--- Age >  40.50
+|   |   |   |   |   |--- weights: [2.30, 25.84] class: 1

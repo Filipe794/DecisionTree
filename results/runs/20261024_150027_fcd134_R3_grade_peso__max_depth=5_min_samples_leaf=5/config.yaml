@@ -1,0 +1,17 @@
+name: R3_grade_peso__max_depth=5_min_samples_leaf=5
+zeros:
+  name: to_nan
+missing_flags:
+  name: none
+imputer:
+  name: median
+features:
+  name: none
+selection:
+  name: none
+balancing:
+  name: none
+model:
+  max_depth: 5
+  min_samples_leaf: 5
+  class_weight: balanced

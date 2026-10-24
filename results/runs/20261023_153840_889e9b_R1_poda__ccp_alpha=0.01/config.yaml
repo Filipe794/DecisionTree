@@ -1,0 +1,16 @@
+name: R1_poda__ccp_alpha=0.01
+zeros:
+  name: to_nan
+missing_flags:
+  name: none
+imputer:
+  name: median
+features:
+  name: none
+selection:
+  name: none
+balancing:
+  name: none
+model:
+  max_depth: null
+  ccp_alpha: 0.01

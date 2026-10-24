@@ -1,0 +1,10 @@
+|--- Glucose <= 132.50
+|   |--- Age <= 29.50
+|   |   |--- weights: [190.00, 22.00] class: 0
+|   |--- Age >  29.50
+|   |   |--- weights: [105.00, 53.00] class: 0
+|--- Glucose >  132.50
+|   |--- Glucose <= 154.50
+|   |   |--- weights: [40.00, 41.00] class: 1
+|   |--- Glucose >  154.50
+|   |   |--- weights: [15.00, 71.00] class: 1

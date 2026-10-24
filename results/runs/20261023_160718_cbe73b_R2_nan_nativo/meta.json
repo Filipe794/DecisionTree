@@ -1,0 +1,18 @@
+{
+  "run_id": "20261023_160718_cbe73b_R2_nan_nativo",
+  "name": "R2_nan_nativo",
+  "hash": "cbe73bd931140e6333c188b6d9d8571ffd7c5737c7d2941ed62666e7e05fa7d4",
+  "date": "2026-10-23T16:07:18",
+  "train_sha256": "390e6dd64c72ec31ff122e939ca9a9bc69cabf3561c1f40a64ed2eb7451f2114",
+  "n_train": 537,
+  "seed": 42,
+  "cv": "RepeatedStratifiedKFold(5x5)",
+  "elapsed_s": 0.48,
+  "versions": {
+    "python": "3.13.15",
+    "sklearn": "1.9.1",
+    "imblearn": "0.14.2",
+    "pandas": "3.0.6",
+    "numpy": "2.5.4"
+  }
+}

@@ -1,0 +1,16 @@
+name: R2_zero_como_valor
+zeros:
+  name: none
+missing_flags:
+  name: none
+imputer:
+  name: median
+features:
+  name: none
+selection:
+  name: none
+balancing:
+  name: none
+model:
+  max_depth: 3
+  min_samples_leaf: 10

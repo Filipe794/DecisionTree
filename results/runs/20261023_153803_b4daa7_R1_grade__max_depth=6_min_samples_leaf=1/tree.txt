@@ -1,0 +1,106 @@
+|--- Glucose <= 132.50
+|   |--- Age <= 29.50
+|   |   |--- BMI <= 45.40
+|   |   |   |--- Pregnancies <= 7.50
+|   |   |   |   |--- DiabetesPedigreeFunction <= 0.51
+|   |   |   |   |   |--- Insulin <= 37.00
+|   |   |   |   |   |   |--- weights: [5.00, 1.00] class: 0
+|   |   |   |   |   |--- Insulin >  37.00
+|   |   |   |   |   |   |--- weights: [130.00, 2.00] class: 0
+|   |   |   |   |--- DiabetesPedigreeFunction >  0.51
+|   |   |   |   |   |--- BMI <= 32.70
+|   |   |   |   |   |   |--- weights: [36.00, 3.00] class: 0
+|   |   |   |   |   |--- BMI >  32.70
+|   |   |   |   |   |   |--- weights: [17.00, 9.00] class: 0
+|   |   |   |--- Pregnancies >  7.50
+|   |   |   |   |--- BMI <= 32.15
+|   |   |   |   |   |--- weights: [0.00, 2.00] class: 1
+|   |   |   |   |--- BMI >  32.15
+|   |   |   |   |   |--- weights: [1.00, 0.00] class: 0
+|   |   |--- BMI >  45.40
+|   |   |   |--- Insulin <= 230.00
+|   |   |   |   |--- weights: [0.00, 5.00] class: 1
+|   |   |   |--- Insulin >  230.00
+|   |   |   |   |--- weights: [1.00, 0.00] class: 0
+|   |--- Age >  29.50
+|   |   |--- BMI <= 26.90
+|   |   |   |--- weights: [30.00, 0.00] class: 0
+|   |   |--- BMI >  26.90
+|   |   |   |--- Insulin <= 88.00
+|   |   |   |   |--- weights: [14.00, 0.00] class: 0
+|   |   |   |--- Insulin >  88.00
+|   |   |   |   |--- DiabetesPedigreeFunction <= 0.56
+|   |   |   |   |   |--- Glucose <= 107.00
+|   |   |   |   |   |   |--- weights: [29.00, 8.00] class: 0
+|   |   |   |   |   |--- Glucose >  107.00
+|   |   |   |   |   |   |--- weights: [21.00, 20.00] class: 0
+|   |   |   |   |--- DiabetesPedigreeFunction >  0.56
+|   |   |   |   |   |--- Pregnancies <= 4.50
+|   |   |   |   |   |   |--- weights: [8.00, 6.00] class: 0
+|   |   |   |   |   |--- Pregnancies >  4.50
+|   |   |   |   |   |   |--- weights: [3.00, 19.00] class: 1
+|--- Glucose >  132.50
+|   |--- BMI <= 29.95
+|   |   |--- Glucose <= 151.50
+|   |   |   |--- Age <= 50.50
+|   |   |   |   |--- Glucose <= 139.50
+|   |   |   |   |   |--- BloodPressure <= 87.00
+|   |   |   |   |   |   |--- weights: [0.00, 3.00] class: 1
+|   |   |   |   |   |--- BloodPressure >  87.00
+|   |   |   |   |   |   |--- weights: [1.00, 0.00] class: 0
+|   |   |   |   |--- Glucose >  139.50
+|   |   |   |   |   |--- Age <= 45.00
+|   |   |   |   |   |   |--- weights: [9.00, 1.00] class: 0
+|   |   |   |   |   |--- Age >  45.00
+|   |   |   |   |   |   |--- weights: [0.00, 1.00] class: 1
+|   |   |   |--- Age >  50.50
+|   |   |   |   |--- weights: [8.00, 0.00] class: 0
+|   |   |--- Glucose >  151.50
+|   |   |   |--- Age <= 61.00
+|   |   |   |   |--- Age <= 25.50
+|   |   |   |   |   |--- weights: [2.00, 0.00] class: 0
+|   |   |   |   |--- Age >  25.50
+|   |   |   |   |   |--- DiabetesPedigreeFunction <= 0.68
+|   |   |   |   |   |   |--- weights: [0.00, 10.00] class: 1
+|   |   |   |   |   |--- DiabetesPedigreeFunction >  0.68
+|   |   |   |   |   |   |--- weights: [2.00, 1.00] class: 0
+|   |   |   |--- Age >  61.00
+|   |   |   |   |--- weights: [3.00, 0.00] class: 0
+|   |--- BMI >  29.95
+|   |   |--- Glucose <= 155.50
+|   |   |   |--- Glucose <= 146.50
+|   |   |   |   |--- BloodPressure <= 73.00
+|   |   |   |   |   |--- Insulin <= 198.00
+|   |   |   |   |   |   |--- weights: [0.00, 13.00] class: 1
+|   |   |   |   |   |--- Insulin >  198.00
+|   |   |   |   |   |   |--- weights: [1.00, 1.00] class: 0
+|   |   |   |   |--- BloodPressure >  73.00
+|   |   |   |   |   |--- Age <= 38.50
+|   |   |   |   |   |   |--- weights: [7.00, 3.00] class: 0
+|   |   |   |   |   |--- Age >  38.50
+|   |   |   |   |   |   |--- weights: [3.00, 11.00] class: 1
+|   |   |   |--- Glucose >  146.50
+|   |   |   |   |--- Pregnancies <= 5.50
+|   |   |   |   |   |--- BloodPressure <= 59.00
+|   |   |   |   |   |   |--- weights: [0.00, 1.00] class: 1
+|   |   |   |   |   |--- BloodPressure >  59.00
+|   |   |   |   |   |   |--- weights: [7.00, 0.00] class: 0
+|   |   |   |   |--- Pregnancies >  5.50
+|   |   |   |   |   |--- Insulin <= 123.00
+|   |   |   |   |   |   |--- weights: [2.00, 0.00] class: 0
+|   |   |   |   |   |--- Insulin >  123.00
+|   |   |   |   |   |   |--- weights: [2.00, 8.00] class: 1
+|   |   |--- Glucose >  155.50
+|   |   |   |--- Insulin <= 80.00
+|   |   |   |   |--- weights: [2.00, 0.00] class: 0
+|   |   |   |--- Insulin >  80.00
+|   |   |   |   |--- DiabetesPedigreeFunction <= 1.16
+|   |   |   |   |   |--- SkinThickness <= 13.50
+|   |   |   |   |   |   |--- weights: [1.00, 0.00] class: 0
+|   |   |   |   |   |--- SkinThickness >  13.50
+|   |   |   |   |   |   |--- weights: [2.00, 55.00] class: 1
+|   |   |   |   |--- DiabetesPedigreeFunction >  1.16
+|   |   |   |   |   |--- Glucose <= 181.50
+|   |   |   |   |   |   |--- weights: [1.00, 4.00] class: 1
+|   |   |   |   |   |--- Glucose >  181.50
+|   |   |   |   |   |   |--- weights: [2.00, 0.00] class: 0

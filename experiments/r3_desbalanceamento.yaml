@@ -33,18 +33,18 @@ baseline:
   features: none
   selection: none
   balancing: none
-  model: {max_depth: 4, min_samples_leaf: 1}  # ATUALIZAR: vencedor de R1
+  model: {max_depth: 3, min_samples_leaf: 10}  # ATUALIZAR: vencedor de R1
 
 experiments:
   # Erros da classe 1 pesam inversamente à sua frequência
   - name: R3_peso_balanceado
     override:
-      model: {max_depth: 4, min_samples_leaf: 1, class_weight: balanced}  # ATUALIZAR: vencedor de R1
+      model: {max_depth: 3, min_samples_leaf: 10, class_weight: balanced}  # ATUALIZAR: vencedor de R1
 
   # Peso moderado para a classe 1 (dicionário só em override, nunca em sweep)
   - name: R3_peso_1_5
     override:
-      model: {max_depth: 4, min_samples_leaf: 1, class_weight: {0: 1, 1: 1.5}}  # ATUALIZAR: vencedor de R1
+      model: {max_depth: 3, min_samples_leaf: 10, class_weight: {0: 1, 1: 1.5}}  # ATUALIZAR: vencedor de R1
 
   # Limiar de decisão escolhido para maximizar o F1
   - name: R3_limiar_f1
@@ -57,7 +57,7 @@ experiments:
   # Peso balanceado + limiar F1 juntos
   - name: R3_peso_limiar_f1
     override:
-      model: {max_depth: 4, min_samples_leaf: 1, class_weight: balanced}  # ATUALIZAR: vencedor de R1
+      model: {max_depth: 3, min_samples_leaf: 10, class_weight: balanced}  # ATUALIZAR: vencedor de R1
       threshold: {name: tuned, scoring: f1}
 
   # Subamostragem aleatória da classe 0 (exige imputer, que o baseline tem)
@@ -67,7 +67,7 @@ experiments:
   # Reajuste da complexidade com peso balanceado (4 x 4 = 16 experimentos)
   - name: R3_grade_peso
     override:
-      model: {max_depth: 4, min_samples_leaf: 1, class_weight: balanced}  # ATUALIZAR: vencedor de R1
+      model: {max_depth: 3, min_samples_leaf: 10, class_weight: balanced}  # ATUALIZAR: vencedor de R1
     sweep:
       model.max_depth: [3, 4, 5, 6]
       model.min_samples_leaf: [5, 10, 20, 30]
