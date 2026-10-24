@@ -1,0 +1,18 @@
+{
+  "run_id": "20261024_170426_06eb7d_R8_seed42_80_20",
+  "name": "R8_seed42_80_20",
+  "hash": "06eb7db271e3a03bd2bd205eb46ef98b9a4d00ae9618d8ecb7698e5d03736bb4",
+  "date": "2026-10-24T17:04:27",
+  "train_sha256": "735262122be2f175d2c4e9565b7d09bc3bf85c809d20f06f772c368f9925c5cd",
+  "n_train": 614,
+  "seed": 42,
+  "cv": "RepeatedStratifiedKFold(5x5)",
+  "elapsed_s": 1.47,
+  "versions": {
+    "python": "3.14.7",
+    "sklearn": "1.9.1",
+    "imblearn": "0.14.2",
+    "pandas": "3.0.6",
+    "numpy": "2.5.4"
+  }
+}

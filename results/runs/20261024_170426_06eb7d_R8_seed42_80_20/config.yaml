@@ -1,0 +1,17 @@
+name: R8_seed42_80_20
+zeros:
+  name: to_nan
+missing_flags:
+  name: none
+imputer:
+  name: median
+features:
+  name: none
+selection:
+  name: none
+balancing:
+  name: none
+model:
+  max_depth: 3
+  min_samples_leaf: 10
+  class_weight: balanced

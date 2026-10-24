@@ -11,7 +11,7 @@ FINAL_DIR = BASE / "results/final"
 SUMMARY_CSV = BASE / "results/summary.csv"
 
 SEED = 42
-TEST_SIZE = 0.3
+TEST_SIZE = 0.2
 
 COLS = ["Pregnancies", "Glucose", "BloodPressure", "SkinThickness",
         "Insulin", "BMI", "DiabetesPedigreeFunction", "Age", "Outcome"]

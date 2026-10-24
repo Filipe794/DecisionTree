@@ -1,0 +1,22 @@
+|--- Glucose <= 127.50
+|   |--- Age <= 28.50
+|   |   |--- DiabetesPedigreeFunction <= 0.67
+|   |   |   |--- weights: [115.84, 10.05] class: 0
+|   |   |--- DiabetesPedigreeFunction >  0.67
+|   |   |   |--- weights: [19.18, 10.05] class: 0
+|   |--- Age >  28.50
+|   |   |--- BMI <= 26.35
+|   |   |   |--- weights: [23.78, 0.00] class: 0
+|   |   |--- BMI >  26.35
+|   |   |   |--- weights: [53.70, 78.97] class: 1
+|--- Glucose >  127.50
+|   |--- BMI <= 29.95
+|   |   |--- Glucose <= 161.50
+|   |   |   |--- weights: [23.01, 14.36] class: 0
+|   |   |--- Glucose >  161.50
+|   |   |   |--- weights: [2.30, 11.49] class: 1
+|   |--- BMI >  29.95
+|   |   |--- DiabetesPedigreeFunction <= 0.31
+|   |   |   |--- weights: [16.11, 34.46] class: 1
+|   |   |--- DiabetesPedigreeFunction >  0.31
+|   |   |   |--- weights: [14.58, 109.12] class: 1

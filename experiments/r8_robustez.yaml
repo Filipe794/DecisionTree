@@ -1,0 +1,11 @@
+# R8 - Robustez: modelo escolhido com outra seed / outra divisão
+baseline_name: R8_seed42_80_20
+
+baseline:
+  zeros: to_nan
+  missing_flags: none
+  imputer: median
+  features: none
+  selection: none
+  balancing: none
+  model: {max_depth: 3, min_samples_leaf: 10, class_weight: balanced}
