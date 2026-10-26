@@ -1,0 +1,18 @@
+{
+  "run_id": "20261023_153842_542d39_R1_poda__ccp_alpha=0.03",
+  "name": "R1_poda__ccp_alpha=0.03",
+  "hash": "542d39d59adee591c02f643b9aece21bf6fece80209c2c62fde88156b202ab6a",
+  "date": "2026-10-23T15:38:42",
+  "train_sha256": "390e6dd64c72ec31ff122e939ca9a9bc69cabf3561c1f40a64ed2eb7451f2114",
+  "n_train": 537,
+  "seed": 42,
+  "cv": "RepeatedStratifiedKFold(5x5)",
+  "elapsed_s": 0.46,
+  "versions": {
+    "python": "3.13.15",
+    "sklearn": "1.9.1",
+    "imblearn": "0.14.2",
+    "pandas": "3.0.6",
+    "numpy": "2.5.4"
+  }
+}

@@ -1,0 +1,43 @@
+|--- Glucose <= 132.50
+|   |--- Age <= 29.50
+|   |   |--- BMI <= 45.40
+|   |   |   |--- Pregnancies <= 7.50
+|   |   |   |   |--- weights: [188.00, 15.00] class: 0
+|   |   |   |--- Pregnancies >  7.50
+|   |   |   |   |--- weights: [1.00, 2.00] class: 1
+|   |   |--- BMI >  45.40
+|   |   |   |--- Insulin <= 230.00
+|   |   |   |   |--- weights: [0.00, 5.00] class: 1
+|   |   |   |--- Insulin >  230.00
+|   |   |   |   |--- weights: [1.00, 0.00] class: 0
+|   |--- Age >  29.50
+|   |   |--- BMI <= 26.90
+|   |   |   |--- weights: [30.00, 0.00] class: 0
+|   |   |--- BMI >  26.90
+|   |   |   |--- Insulin <= 88.00
+|   |   |   |   |--- weights: [14.00, 0.00] class: 0
+|   |   |   |--- Insulin >  88.00
+|   |   |   |   |--- weights: [61.00, 53.00] class: 0
+|--- Glucose >  132.50
+|   |--- BMI <= 29.95
+|   |   |--- Glucose <= 151.50
+|   |   |   |--- Age <= 50.50
+|   |   |   |   |--- weights: [10.00, 5.00] class: 0
+|   |   |   |--- Age >  50.50
+|   |   |   |   |--- weights: [8.00, 0.00] class: 0
+|   |   |--- Glucose >  151.50
+|   |   |   |--- Age <= 61.00
+|   |   |   |   |--- weights: [4.00, 11.00] class: 1
+|   |   |   |--- Age >  61.00
+|   |   |   |   |--- weights: [3.00, 0.00] class: 0
+|   |--- BMI >  29.95
+|   |   |--- Glucose <= 155.50
+|   |   |   |--- Glucose <= 146.50
+|   |   |   |   |--- weights: [11.00, 28.00] class: 1
+|   |   |   |--- Glucose >  146.50
+|   |   |   |   |--- weights: [11.00, 9.00] class: 0
+|   |   |--- Glucose >  155.50
+|   |   |   |--- Insulin <= 80.00
+|   |   |   |   |--- weights: [2.00, 0.00] class: 0
+|   |   |   |--- Insulin >  80.00
+|   |   |   |   |--- weights: [6.00, 59.00] class: 1

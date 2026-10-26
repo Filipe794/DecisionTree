@@ -1,0 +1,22 @@
+|--- Glucose <= 132.50
+|   |--- Insulin <= 109.55
+|   |   |--- DiabetesPedigreeFunction <= 0.75
+|   |   |   |--- weights: [152.00, 7.00] class: 0
+|   |   |--- DiabetesPedigreeFunction >  0.75
+|   |   |   |--- weights: [17.00, 5.00] class: 0
+|   |--- Insulin >  109.55
+|   |   |--- BMI <= 26.90
+|   |   |   |--- weights: [31.00, 0.00] class: 0
+|   |   |--- BMI >  26.90
+|   |   |   |--- weights: [95.00, 63.00] class: 0
+|--- Glucose >  132.50
+|   |--- BMI <= 29.95
+|   |   |--- Insulin <= 177.30
+|   |   |   |--- weights: [8.00, 12.00] class: 1
+|   |   |--- Insulin >  177.30
+|   |   |   |--- weights: [17.00, 4.00] class: 0
+|   |--- BMI >  29.95
+|   |   |--- Glucose <= 155.50
+|   |   |   |--- weights: [22.00, 37.00] class: 1
+|   |   |--- Glucose >  155.50
+|   |   |   |--- weights: [8.00, 59.00] class: 1

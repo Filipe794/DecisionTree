@@ -1,0 +1,18 @@
+{
+  "run_id": "20261024_151645_cb874c_R4_rfe_flags",
+  "name": "R4_rfe_flags",
+  "hash": "cb874c9634f634e6b87d1ea390cc4d79bbc3fb5c7b4121bcd6d6a6418232c91f",
+  "date": "2026-10-24T15:16:45",
+  "train_sha256": "390e6dd64c72ec31ff122e939ca9a9bc69cabf3561c1f40a64ed2eb7451f2114",
+  "n_train": 537,
+  "seed": 42,
+  "cv": "RepeatedStratifiedKFold(5x5)",
+  "elapsed_s": 1.2,
+  "versions": {
+    "python": "3.13.15",
+    "sklearn": "1.9.1",
+    "imblearn": "0.14.2",
+    "pandas": "3.0.6",
+    "numpy": "2.5.4"
+  }
+}

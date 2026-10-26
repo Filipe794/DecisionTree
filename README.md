@@ -382,21 +382,66 @@ python compare.py <run_A> <run_B> --metric roc_auc    # só uma métrica
 ```
 
 ```
-  métrica  média A  média B  dif (B-A)      t     p
-  roc_auc    0.754    0.774      0.020  0.779 0.444
+  métrica  média A  média B  dif (B-A)      t     p significativo (p < α)
+  roc_auc    0.754    0.774      0.020  0.779 0.444                   não
 ```
 
 - Ele calcula as diferenças `d = B - A` em cada um dos 25 folds e aplica o **teste t corrigido
   de Nadeau e Bengio (2003)**: `t = média(d) / sqrt((1/(k·r) + 1/(k-1)) · var(d))`, com
-  `k = 5` folds, `r = 5` repetições e 24 graus de liberdade. O p-valor é bilateral.
+  `k = 5` folds, `r = 5` repetições e `k·r - 1 = 24` graus de liberdade. O p-valor é bilateral.
 - O teste t comum não serve: os folds compartilham dados de treino, então as notas não são
   independentes, e ele apontaria diferenças significativas demais.
 - Sem `--metric`, mostra todas as métricas. As duas execuções precisam ter o mesmo CV
   (mesmas 25 linhas `repeat, fold`) e o mesmo `train.csv`. O script confere o split sozinho,
   pelo `train_sha256` do `meta.json`, e para com uma mensagem se forem diferentes. O split
   usado aparece na saída, no mesmo formato da coluna `split` do `summary.csv`.
-- Leitura: p ≥ 0.05 indica que não há evidência de diferença. É isso que permite escolher a
-  config mais simples entre as que empatam com a melhor (critério das rodadas).
+
+#### Fechando uma rodada
+
+Para aplicar a regra de escolha de uma rodada de uma vez, use o modo `--rodada`:
+
+```bash
+python compare.py --rodada R1_                       # todas as execuções cujo nome começa com R1_
+python compare.py --rodada R2_ --incluir <pasta do vencedor do R1>
+python compare.py --rodada R3_ --metric f1 --incluir <pasta do vencedor do R2>
+python compare.py --rodada R1_ --ref <pasta>          # referência escolhida por você
+python compare.py --rodada R1_ --salvar               # grava results/comparacoes/R1_roc_auc.csv
+```
+
+- `--rodada` seleciona as execuções de `results/runs/` cujo campo `name` do `meta.json` começa
+  com o prefixo (ignora as pastas `.tmp_*` e as sem `meta.json`). Use o `_` no fim (`R1_`)
+  para não pegar um futuro `R10_`.
+- `--incluir` acrescenta pastas à comparação. É necessário do R2 em diante: o baseline da
+  rodada é pulado pelo hash e continua com o nome do vencedor da rodada anterior, então o
+  prefixo não o encontra.
+- A **referência** é a execução de maior média na métrica (padrão: `roc_auc`), ou a pasta
+  passada em `--ref`. Ela é comparada com **cada uma** das outras (um contra todos, não todos
+  os pares), com o mesmo teste t corrigido.
+- Uma execução com outro `train_sha256` ou sem as mesmas 25 linhas `(repeat, fold)` da
+  referência não para o script: ele avisa e pula só essa execução.
+- A tabela sai ordenada pela média, com a referência na primeira linha, e traz a diferença
+  para a referência, `t`, `p`, a coluna `significativo (p < α)` e a **profundidade** e o
+  **número de folhas** da árvore final (lidos do `pipeline.joblib`; NaN, com aviso, se ele não
+  abrir). No fim, lista as execuções sem diferença significativa para a referência: as
+  candidatas à mais simples. O script **não escolhe** o vencedor; essa decisão é sua.
+- `--salvar` grava a tabela em `results/comparacoes/<prefixo>_<métrica>.csv` (o `_` final do
+  prefixo é removido do nome do arquivo). Nada é escrito em `results/runs/`.
+
+#### Como ler o p-valor
+
+- O nível de significância é `ALPHA = 0.05`, em `src/config.py` (bilateral). Ele não entra no
+  hash das execuções: mudá-lo só muda a leitura das comparações.
+- p < α: há evidência de diferença entre as duas execuções na métrica.
+- **p ≥ α quer dizer "sem diferença significativa", não "equivalentes".** O teste não provou
+  que as duas são iguais; só não encontrou evidência de que sejam diferentes, e com 25 folds
+  correlacionados ele tem pouco poder para diferenças pequenas. É isso que permite escolher a
+  config mais simples entre as que empatam com a melhor (critério das rodadas), mas o empate
+  é "não deu para distinguir", não "são iguais".
+- Cada rodada faz **várias comparações** (uma por execução contra a referência) **sem
+  correção para comparações múltiplas** (Holm ou Bonferroni). Com muitas comparações, algumas
+  podem dar p < α por acaso. Como a regra procura as que **não** diferem da melhor, a falta de
+  correção deixa a seleção mais rigorosa (menos candidatas), não mais permissiva; ainda assim,
+  trate p-valores perto de α com cautela e registre isso no relatório.
 
 ### Garantias contra sobrescrita
 

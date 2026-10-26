@@ -1,0 +1,22 @@
+|--- HOMA_IR <= 35.62
+|   |--- Pregnancies <= 6.50
+|   |   |--- BMI <= 30.65
+|   |   |   |--- weights: [81.32, 5.74] class: 0
+|   |   |--- BMI >  30.65
+|   |   |   |--- weights: [65.21, 21.54] class: 0
+|   |--- Pregnancies >  6.50
+|   |   |--- DiabetesPedigreeFunction <= 0.62
+|   |   |   |--- weights: [18.41, 7.18] class: 0
+|   |   |--- DiabetesPedigreeFunction >  0.62
+|   |   |   |--- weights: [3.84, 12.92] class: 1
+|--- HOMA_IR >  35.62
+|   |--- Glucose <= 154.50
+|   |   |--- BMI <= 27.35
+|   |   |   |--- weights: [19.95, 1.44] class: 0
+|   |   |--- BMI >  27.35
+|   |   |   |--- weights: [69.81, 117.74] class: 1
+|   |--- Glucose >  154.50
+|   |   |--- BMI <= 29.95
+|   |   |   |--- weights: [4.60, 14.36] class: 1
+|   |   |--- BMI >  29.95
+|   |   |   |--- weights: [5.37, 87.59] class: 1

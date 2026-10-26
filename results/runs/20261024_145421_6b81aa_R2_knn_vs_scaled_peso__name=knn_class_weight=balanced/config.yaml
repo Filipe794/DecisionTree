@@ -1,0 +1,18 @@
+name: R2_knn_vs_scaled_peso__name=knn_class_weight=balanced
+zeros:
+  name: to_nan
+missing_flags:
+  name: none
+imputer:
+  name: knn
+  n_neighbors: 5
+features:
+  name: none
+selection:
+  name: none
+balancing:
+  name: none
+model:
+  max_depth: 3
+  min_samples_leaf: 10
+  class_weight: balanced

@@ -30,16 +30,15 @@ baseline:
   features: none                              # ATUALIZAR: vencedor de R4
   selection: none                             # ATUALIZAR: vencedor de R4
   balancing: none                             # ATUALIZAR: vencedor de R3
-  model: {max_depth: 4, min_samples_leaf: 1}  # ATUALIZAR: vencedor de R1 + class_weight de R3
+  model: {max_depth: 3, min_samples_leaf: 10, class_weight: balanced}  # vencedor de R1 + class_weight de R3
   # threshold: {name: tuned, scoring: f1}     # ATUALIZAR: vencedor de R3 (descomente se venceu)
 
 experiments:
-  # Grade pequena ao redor da complexidade do baseline (3 x 3 = 9 experimentos).
-  # Provisório: max_depth 4 -> [3, 4, 5]; min_samples_leaf 1 não tem vizinho
-  # menor na lista do R1, então usa os três primeiros [1, 5, 10].
+  # Grade pequena ao redor da complexidade do baseline (3 x 3 = 9 experimentos):
+  # max_depth 3 -> [2, 3, 4]; min_samples_leaf 10 -> [5, 10, 20].
   - name: R5_grade
     override:
-      model: {max_depth: 4, min_samples_leaf: 1}  # ATUALIZAR: igual ao model do baseline
+      model: {max_depth: 3, min_samples_leaf: 10, class_weight: balanced}  # igual ao model do baseline
     sweep:
-      model.max_depth: [3, 4, 5]           # ATUALIZAR: [valor-1, valor, valor+1]
-      model.min_samples_leaf: [1, 5, 10]   # ATUALIZAR: [vizinho menor, valor, vizinho maior]
+      model.max_depth: [2, 3, 4]           # [valor-1, valor, valor+1]
+      model.min_samples_leaf: [5, 10, 20]  # [vizinho menor, valor, vizinho maior]

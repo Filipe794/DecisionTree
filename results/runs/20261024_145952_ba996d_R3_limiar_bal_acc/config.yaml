@@ -1,0 +1,19 @@
+name: R3_limiar_bal_acc
+zeros:
+  name: to_nan
+missing_flags:
+  name: none
+imputer:
+  name: median
+features:
+  name: none
+selection:
+  name: none
+balancing:
+  name: none
+model:
+  max_depth: 3
+  min_samples_leaf: 10
+threshold:
+  name: tuned
+  scoring: balanced_accuracy

@@ -112,8 +112,16 @@ def run(name, cfg, force=False, n_jobs=-1):
             # Limiar escolhido no treino inteiro (é o usado pela árvore salva e pelo final_test)
             meta["threshold"] = float(final_pipe.best_threshold_)
         (tmp_dir / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
-        # Só vira uma execução "válida" depois de tudo gravado
-        tmp_dir.rename(final_dir)
+         # Só vira uma execução "válida" depois de tudo gravado
+        for tentativa in range(3):
+            try:
+                tmp_dir.rename(final_dir)
+                break
+            except PermissionError:
+                if tentativa == 2:
+                    raise
+               
+                time.sleep(1)
     except BaseException:
         shutil.rmtree(tmp_dir, ignore_errors=True)
         raise

@@ -1,0 +1,22 @@
+|--- Glucose <= 132.50
+|   |--- Insulin <= 113.83
+|   |   |--- Age <= 45.50
+|   |   |   |--- weights: [177.00, 13.00] class: 0
+|   |   |--- Age >  45.50
+|   |   |   |--- weights: [6.00, 5.00] class: 0
+|   |--- Insulin >  113.83
+|   |   |--- Pregnancies <= 6.50
+|   |   |   |--- weights: [98.00, 35.00] class: 0
+|   |   |--- Pregnancies >  6.50
+|   |   |   |--- weights: [14.00, 22.00] class: 1
+|--- Glucose >  132.50
+|   |--- BMI <= 29.95
+|   |   |--- Glucose <= 151.50
+|   |   |   |--- weights: [18.00, 5.00] class: 0
+|   |   |--- Glucose >  151.50
+|   |   |   |--- weights: [7.00, 11.00] class: 1
+|   |--- BMI >  29.95
+|   |   |--- Glucose <= 155.50
+|   |   |   |--- weights: [22.00, 37.00] class: 1
+|   |   |--- Glucose >  155.50
+|   |   |   |--- weights: [8.00, 59.00] class: 1

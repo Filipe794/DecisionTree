@@ -1,0 +1,16 @@
+name: R2_media
+zeros:
+  name: to_nan
+missing_flags:
+  name: none
+imputer:
+  name: mean
+features:
+  name: none
+selection:
+  name: none
+balancing:
+  name: none
+model:
+  max_depth: 3
+  min_samples_leaf: 10
