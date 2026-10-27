@@ -2,7 +2,11 @@
 
 Trabalho da disciplina Aprendizado de Máquina, do PPGCC - UFPI, 2026.2.
 
-**Autores:** Filipe Mendes, Bétanny Alexandra, Juciane Maciel· **Orientação/professor:** Prof. Dr. Vinicius Ponte Machado.
+**Autores:** Filipe Mendes, Bétanny Alexandra, Juciane Maciel · **Orientação/professor:** Prof. Dr. Vinicius Ponte Machado.
+
+> **Relatório do trabalho:** [Árvore de Decisão para Triagem de Diabetes utilizando a Base Pima Indians Diabetes (PDF)](docs/%C3%81rvore_de_Decis%C3%A3o_para_Triagem_de_Diabetes_utilizando_a_Base_Pima_Indians_Diabetes.pdf)
+>
+> Descreve a metodologia, os experimentos por rodada, o modelo escolhido, o resultado no conjunto de teste e a análise de robustez.
 
 ## Objetivo
 
